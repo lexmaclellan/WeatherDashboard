@@ -6,7 +6,7 @@ function getCoordinates(searchUrl) {
         if (response.ok) {
             response.json().then(function (data) {
                 console.log(data);
-                getWeather(data.items[0].lat, data.items[0].lon);
+                getWeather(data[0].lat, data[0].lon);
             });
         }
         else {
@@ -37,4 +37,4 @@ var getWeather = function(lat, lon) {
         });
 };
 
-getCoordinates(weatherUrl);
+getCoordinates(searchUrl);
