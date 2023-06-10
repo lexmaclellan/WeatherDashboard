@@ -1,13 +1,16 @@
-var searchUrl = "http://api.openweathermap.org/geo/1.0/direct?q=Fredericton&limit=5&appid=6da9f270f26dfadb040379c56c4a5070";
+var formEl = document.querySelector("#searchForm");
+var cityInputEl = document.querySelector("#citySearch");
+var searchButtonEl = document.querySelector("#searchButton");
 
-function getCoordinates(searchUrl) {
+function getCoordinates(city) {
+    searchUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=6da9f270f26dfadb040379c56c4a5070`;
     fetch(searchUrl)
     .then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
                 console.log(data);
                 getWeather(data[0].lat, data[0].lon);
-            });
+            })
         }
         else {
             console.log("Error: " + response.statusText);
@@ -15,7 +18,7 @@ function getCoordinates(searchUrl) {
     })
     .catch(function (error) {
         console.log("Unable to connect to OpenWeather");
-    });
+    })
 }
 
 var getWeather = function(lat, lon) {
@@ -34,7 +37,16 @@ var getWeather = function(lat, lon) {
         })
         .catch(function (error) {
             console.log("Unable to connect to OpenWeather");
-        });
-};
+        })
+}
 
-getCoordinates(searchUrl);
+var formSubmitHandler = function (event) {
+    event.preventDefault();
+
+    var city = cityInputEl.value.trim();
+    if (city) {
+        getCoordinates(city);
+    }
+}
+
+formEl.addEventListener("submit", formSubmitHandler);
