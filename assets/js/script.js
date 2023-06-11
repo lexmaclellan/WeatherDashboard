@@ -8,8 +8,13 @@ function getCoordinates(city) {
     .then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-                console.log(data);
-                getWeather(data[0].lat, data[0].lon);
+                if (data && data.length > 0) {
+                    console.log(data);
+                    getWeather(data[0].lat, data[0].lon);
+                }
+                else {
+                    console.log("No data");
+                }
             })
         }
         else {
@@ -29,6 +34,10 @@ var getWeather = function(lat, lon) {
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data);
+                    var weatherDetailsEl = document.querySelector("#weatherDetails");
+                    var weatherDetailsCard = document.createElement("div");
+                    //weatherDetailsCard.textContent = data.list[0]
+                    weatherDetailsEl.appendChild(weatherDetailsCard);
                 })
             }
             else {
@@ -49,4 +58,5 @@ var formSubmitHandler = function (event) {
     }
 }
 
-formEl.addEventListener("submit", formSubmitHandler);rmEl.addEventListener("submit", formSubmitHandler);
+
+formEl.addEventListener("submit", formSubmitHandler);
