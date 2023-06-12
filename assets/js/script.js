@@ -1,6 +1,7 @@
 var formEl = document.querySelector("#searchForm");
 var cityInputEl = document.querySelector("#citySearch");
 var searchButtonEl = document.querySelector("#searchButton");
+var weatherDetailsEl = document.querySelector("#weatherDetails");
 
 function getCoordinates(city) {
     searchUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=6da9f270f26dfadb040379c56c4a5070`;
@@ -34,10 +35,12 @@ var getWeather = function(lat, lon) {
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data);
-                    var weatherDetailsEl = document.querySelector("#weatherDetails");
-                    var weatherDetailsCard = document.createElement("div");
-                    //weatherDetailsCard.textContent = data.list[0]
-                    weatherDetailsEl.appendChild(weatherDetailsCard);
+                    
+                    for (var i = 0; i < data.list.length; i++) {
+                        var weatherDetailsCard = document.createElement("div");
+                        weatherDetailsCard.textContent = dayjs.unix(data.list[i].dt);
+                        weatherDetailsEl.appendChild(weatherDetailsCard);
+                    }
                 })
             }
             else {
