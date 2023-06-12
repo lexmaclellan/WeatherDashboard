@@ -3,44 +3,20 @@ var cityInputEl = document.querySelector("#citySearch");
 var searchButtonEl = document.querySelector("#searchButton");
 var weatherDetailsEl = document.querySelector("#weatherDetails");
 
-function getCoordinates(city) {
-    searchUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=6da9f270f26dfadb040379c56c4a5070`;
-    fetch(searchUrl)
-    .then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                if (data && data.length > 0) {
-                    console.log(data);
-                    getWeather(data[0].lat, data[0].lon);
-                }
-                else {
-                    console.log("No data");
-                }
-            })
-        }
-        else {
-            console.log("Error: " + response.statusText);
-        }
-    })
-    .catch(function (error) {
-        console.log("Unable to connect to OpenWeather");
-    })
-}
-
-var getWeather = function(lat, lon) {
-    var weatherUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=6da9f270f26dfadb040379c56c4a5070`;
-    
+var getWeather = function(city) {
+    var weatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&limit=5&appid=6da9f270f26dfadb040379c56c4a5070`;
     fetch(weatherUrl)
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data);
                     
-                    for (var i = 0; i < data.list.length; i++) {
+                    /*for (var i = 0; i < data.list.length; i++) {
                         var weatherDetailsCard = document.createElement("div");
                         weatherDetailsCard.textContent = dayjs.unix(data.list[i].dt);
+                        weatherDetailsCard.textContent += ", " + toCelsius(data.list[i].main.temp) + " ° C";
                         weatherDetailsEl.appendChild(weatherDetailsCard);
-                    }
+                    }*/
                 })
             }
             else {
@@ -57,9 +33,12 @@ var formSubmitHandler = function (event) {
 
     var city = cityInputEl.value.trim();
     if (city) {
-        getCoordinates(city);
+        getWeather(city);
     }
 }
 
+var toCelsius = function(kelvins) {
+    return Math.round(kelvins - 273.15);
+}
 
 formEl.addEventListener("submit", formSubmitHandler);
