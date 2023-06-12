@@ -3,10 +3,12 @@
     flex-direction: column;
 }
 
-header {
+.header {
     width: 100%;
-    height: 35px;
     background-color: blue;
+    color: white;
+    font-weight: bold;
+    font-size: 32px;
 }
 
 sidebar {
