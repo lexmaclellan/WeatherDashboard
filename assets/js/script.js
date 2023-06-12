@@ -10,7 +10,6 @@ var getWeather = function(city) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data);
                     var weatherDetailsCard = document.createElement("div");
                     var weatherDetailsDate = document.createElement("h2");
                     var weatherDetailsTemp = document.createElement("span");
@@ -40,7 +39,34 @@ var fiveDayForecast = function(lat, lon) {
         .then (function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data);
+                    var fiveDayContainer = document.createElement("div");
+                    fiveDayContainer.id = "fiveDayContainer";
+                    
+                    for (var i = 0; i < data.list.length; i++) {
+                        var oneDayContainer = document.createElement("div");
+                        oneDayContainer.id = "oneDayContainer";
+                        var oneDayDate = document.createElement("div");
+                        var oneDayWeather = document.createElement("div");
+                        var oneDayTemp = document.createElement("div");
+                        var oneDayWind = document.createElement("div");
+                        var oneDayHumidity = document.createElement("div");
+
+                        oneDayDate.textContent = dayjs.unix(data.list[i].dt).format("MMM D, YYYY");
+                        oneDayWeather.textContent = data.list[i].weather[0].main;
+                        oneDayTemp.textContent = "Temp: " + toCelsius(data.list[i].main.temp) + " ° C";
+                        oneDayWind.textContent = "Wind: " + data.list[i].wind.speed + " MpH";
+                        oneDayHumidity.textContent = "Humidity: " + data.list[i].main.humidity + "%";
+
+                        oneDayContainer.appendChild(oneDayDate);
+                        oneDayContainer.appendChild(oneDayWeather);
+                        oneDayContainer.appendChild(oneDayTemp);
+                        oneDayContainer.appendChild(oneDayWind);
+                        oneDayContainer.appendChild(oneDayHumidity);
+                        fiveDayContainer.appendChild(oneDayContainer);
+                    }
+
+                    
+                    weatherDetailsEl.appendChild(fiveDayContainer);
                 })
             }
             else {

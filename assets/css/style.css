@@ -22,3 +22,13 @@ main {
     height: 100vh;
     background-color: white;
 }
+
+#fiveDayContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+#oneDayContainer {
+    display: flex;
+    flex-direction: row;
+}
