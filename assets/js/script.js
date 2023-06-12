@@ -64,7 +64,6 @@ var fiveDayForecast = function(lat, lon) {
                         oneDayContainer.appendChild(oneDayHumidity);
                         fiveDayContainer.appendChild(oneDayContainer);
                     }
-
                     
                     weatherDetailsEl.appendChild(fiveDayContainer);
                 })

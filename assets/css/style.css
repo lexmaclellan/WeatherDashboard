@@ -25,10 +25,10 @@ main {
 
 #fiveDayContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 #oneDayContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
