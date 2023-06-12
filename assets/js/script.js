@@ -11,12 +11,12 @@ var getWeather = function(city) {
                 response.json().then(function (data) {
                     console.log(data);
                     
-                    /*for (var i = 0; i < data.list.length; i++) {
+                    //for (var i = 0; i < data.length; i++) {
                         var weatherDetailsCard = document.createElement("div");
-                        weatherDetailsCard.textContent = dayjs.unix(data.list[i].dt);
-                        weatherDetailsCard.textContent += ", " + toCelsius(data.list[i].main.temp) + " ° C";
+                        weatherDetailsCard.textContent = dayjs.unix(data.dt).format("MMM D, YYYY");
+                        weatherDetailsCard.textContent += ", " + toCelsius(data.main.temp) + " ° C";
                         weatherDetailsEl.appendChild(weatherDetailsCard);
-                    }*/
+                    //}
                 })
             }
             else {
