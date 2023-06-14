@@ -10,19 +10,29 @@ var getWeather = function(city) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
+                    console.log(data);
                     if (document.getElementById("weatherDetailsCard")) {
                         document.getElementById("weatherDetailsCard").remove();
                     }
                     var weatherDetailsCard = document.createElement("div");
                     weatherDetailsCard.id = "weatherDetailsCard";
+                    var weatherDetailsIcon = document.createElement("img");
                     var weatherDetailsDate = document.createElement("h2");
                     var weatherDetailsTemp = document.createElement("span");
+                    var weatherDetailsWind = document.createElement("div");
+                    var weatherDetailsHumidity = document.createElement("div");
 
-                    weatherDetailsDate.textContent = dayjs.unix(data.dt).format("MMM D, YYYY");
+                    weatherDetailsIcon.src = "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+                    weatherDetailsDate.textContent = data.name + " (" + dayjs.unix(data.dt).format("MMM D, YYYY") + ")";
                     weatherDetailsTemp.textContent = toCelsius(data.main.temp) + " ° C";
+                    weatherDetailsWind.textContent = "Wind: " + data.wind.speed + " MpH";
+                    weatherDetailsHumidity.textContent = "Humidity: " + data.main.humidity + "%";
 
                     weatherDetailsCard.appendChild(weatherDetailsDate);
+                    weatherDetailsCard.appendChild(weatherDetailsIcon);
                     weatherDetailsCard.appendChild(weatherDetailsTemp);
+                    weatherDetailsCard.appendChild(weatherDetailsWind);
+                    weatherDetailsCard.appendChild(weatherDetailsHumidity);
                     weatherDetailsEl.appendChild(weatherDetailsCard);
 
                     fiveDayForecast(data.coord.lat, data.coord.lon);
