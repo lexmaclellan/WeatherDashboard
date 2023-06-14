@@ -31,4 +31,9 @@ main {
 #oneDayContainer {
     display: flex;
     flex-direction: column;
+    background: lightblue;
+    border: 1px solid black;
+    margin: 5px;
+    padding: 5px;
+    line-height: 1.5;
 }

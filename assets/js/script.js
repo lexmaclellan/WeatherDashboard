@@ -10,7 +10,11 @@ var getWeather = function(city) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
+                    if (document.getElementById("weatherDetailsCard")) {
+                        document.getElementById("weatherDetailsCard").remove();
+                    }
                     var weatherDetailsCard = document.createElement("div");
+                    weatherDetailsCard.id = "weatherDetailsCard";
                     var weatherDetailsDate = document.createElement("h2");
                     var weatherDetailsTemp = document.createElement("span");
 
@@ -39,25 +43,34 @@ var fiveDayForecast = function(lat, lon) {
         .then (function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
+                    if (document.getElementById("fiveDayContainer")) {
+                        while (document.getElementById("fiveDayContainer").hasChildNodes()) {
+                            document.getElementById("fiveDayContainer").removeChild(document.getElementById("fiveDayContainer").firstChild);
+                        }
+                        document.getElementById("fiveDayContainer").remove();
+                    }
                     var fiveDayContainer = document.createElement("div");
                     fiveDayContainer.id = "fiveDayContainer";
                     
-                    for (var i = 0; i < data.list.length; i++) {
+                    for (var i = 4; i < data.list.length; i+=8) {
                         var oneDayContainer = document.createElement("div");
                         oneDayContainer.id = "oneDayContainer";
                         var oneDayDate = document.createElement("div");
                         var oneDayWeather = document.createElement("div");
+                        var oneDayWeatherIcon = document.createElement("img");
                         var oneDayTemp = document.createElement("div");
                         var oneDayWind = document.createElement("div");
                         var oneDayHumidity = document.createElement("div");
 
                         oneDayDate.textContent = dayjs.unix(data.list[i].dt).format("MMM D, YYYY");
-                        oneDayWeather.textContent = data.list[i].weather[0].main;
+                        //oneDayWeather.textContent = data.list[i].weather[0].main;
+                        oneDayWeatherIcon.src = "https://openweathermap.org/img/wn/" + data.list[i].weather[0].icon + "@2x.png";
                         oneDayTemp.textContent = "Temp: " + toCelsius(data.list[i].main.temp) + " ° C";
                         oneDayWind.textContent = "Wind: " + data.list[i].wind.speed + " MpH";
                         oneDayHumidity.textContent = "Humidity: " + data.list[i].main.humidity + "%";
 
                         oneDayContainer.appendChild(oneDayDate);
+                        oneDayWeather.appendChild(oneDayWeatherIcon);
                         oneDayContainer.appendChild(oneDayWeather);
                         oneDayContainer.appendChild(oneDayTemp);
                         oneDayContainer.appendChild(oneDayWind);
