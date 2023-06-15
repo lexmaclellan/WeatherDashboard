@@ -11,7 +11,7 @@ var userSearch = document.createElement("input");
 
 // Display the current weather in a given city
 var getWeather = function(city) {
-    var weatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&limit=5&appid=${apiKey}`;
+    var weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&limit=5&appid=${apiKey}`;
     fetch(weatherUrl)
         .then(function (response) {
             if (response.ok) {
@@ -60,7 +60,7 @@ var getWeather = function(city) {
 
 // Display weather for the next five days at a given longitutde and latitude
 var fiveDayForecast = function(lat, lon) {
-    var forecastUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    var forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     fetch(forecastUrl)
         .then (function (response) {
             if (response.ok) {
