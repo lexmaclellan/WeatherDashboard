@@ -1,5 +1,5 @@
 # UNBBootcampWeatherChallenge
-[https://lexrayne.github.io/UNBBootcampWeatherChallenge/](https://lexrayne.github.io/UNBBootcampSchedulerChallenge/)
+[https://lexrayne.github.io/UNBBootcampWeatherChallenge/](https://lexrayne.github.io/UNBBootcampWeatherChallenge/)
 
 ## Description
 A weather app that lets the user search by city.
