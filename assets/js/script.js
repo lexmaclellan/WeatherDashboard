@@ -151,7 +151,7 @@ function loadSearch() {
 }
 
 userSearch.addEventListener("click", function() {
-    cityInputEl.value = name;
+    cityInputEl.value = userSearch.value;
     getWeather(userSearch.value);
 })
 
