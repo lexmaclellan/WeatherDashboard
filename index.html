@@ -11,17 +11,21 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-12 text-center">Weather Dashboard</div>
+            <div class="col-12 text-center header">Weather Dashboard</div>
         </div>
         <div class="row">
-            <div class="col-3">
+            <div class="col-4">
                 <form id="searchForm">
-                <label for="citySearch">Search by City:</label>
+                <label for="citySearch">Search for a City:</label>
                 <input type="text" id="citySearch">
                 <input type="submit" id="searchButton" value="Submit">
                 </form>
+                <div id="savedSearches">
+                    <ul id="searchList">
+                    </ul>
+                </div>
             </div>
-            <div class="col-9" id="weatherDetails"></div>
+            <div class="col-8" id="weatherDetails"></div>
         </div>
     </div>
     
