@@ -4,7 +4,7 @@
 ## Description
 A weather app that lets the user search by city.
 
-![A weather app displaying the five day forecast for Fredericton.](weather.png)
+![A weather app displaying the five day forecast for Fredericton.](./assets/img/weather.png)
 
 ## Installation
 N/A
