@@ -1,4 +1,7 @@
+// OpenWeather API key
 var apiKey = "6da9f270f26dfadb040379c56c4a5070";
+
+// HTML elements
 var formEl = document.querySelector("#searchForm");
 var cityInputEl = document.querySelector("#citySearch");
 var savedSearchesEl = document.getElementById("savedSearches");
@@ -6,16 +9,18 @@ var searchButtonEl = document.querySelector("#searchButton");
 var weatherDetailsEl = document.querySelector("#weatherDetails");
 var userSearch = document.createElement("input");
 
+// Display the current weather in a given city
 var getWeather = function(city) {
     var weatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&limit=5&appid=${apiKey}`;
     fetch(weatherUrl)
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data);
+                    // First clear the screen of previous results, if any
                     if (document.getElementById("weatherDetailsCard")) {
                         document.getElementById("weatherDetailsCard").remove();
                     }
+                    // Create HTML elements
                     var weatherDetailsCard = document.createElement("div");
                     weatherDetailsCard.id = "weatherDetailsCard";
                     var weatherDetailsIcon = document.createElement("img");
@@ -24,12 +29,14 @@ var getWeather = function(city) {
                     var weatherDetailsWind = document.createElement("div");
                     var weatherDetailsHumidity = document.createElement("div");
 
+                    // Load data from the API
                     weatherDetailsIcon.src = "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
                     weatherDetailsDate.textContent = data.name + " (" + dayjs.unix(data.dt).format("MMM D, YYYY") + ")";
                     weatherDetailsTemp.textContent = toCelsius(data.main.temp) + " ° C";
                     weatherDetailsWind.textContent = "Wind: " + data.wind.speed + " MpH";
                     weatherDetailsHumidity.textContent = "Humidity: " + data.main.humidity + "%";
 
+                    // Display the results
                     weatherDetailsCard.appendChild(weatherDetailsDate);
                     weatherDetailsCard.appendChild(weatherDetailsIcon);
                     weatherDetailsCard.appendChild(weatherDetailsTemp);
@@ -37,6 +44,7 @@ var getWeather = function(city) {
                     weatherDetailsCard.appendChild(weatherDetailsHumidity);
                     weatherDetailsEl.appendChild(weatherDetailsCard);
 
+                    // Run functions to save the search and get the five day forecast
                     saveSearch(data.name);
                     fiveDayForecast(data.coord.lat, data.coord.lon);
                 })
@@ -50,22 +58,27 @@ var getWeather = function(city) {
         })
 }
 
+// Display weather for the next five days at a given longitutde and latitude
 var fiveDayForecast = function(lat, lon) {
     var forecastUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     fetch(forecastUrl)
         .then (function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
+                    // First clear the screen of previous results, if any
                     if (document.getElementById("fiveDayContainer")) {
                         while (document.getElementById("fiveDayContainer").hasChildNodes()) {
                             document.getElementById("fiveDayContainer").removeChild(document.getElementById("fiveDayContainer").firstChild);
                         }
                         document.getElementById("fiveDayContainer").remove();
                     }
+                    // Create a container for each day's results
                     var fiveDayContainer = document.createElement("div");
                     fiveDayContainer.id = "fiveDayContainer";
                     
+                    // Read from the hourly data but display only five results
                     for (var i = 4; i < data.list.length; i+=8) {
+                        // Create HTML tags for the current day's weather
                         var oneDayContainer = document.createElement("div");
                         oneDayContainer.id = "oneDayContainer";
                         var oneDayDate = document.createElement("div");
@@ -75,13 +88,14 @@ var fiveDayForecast = function(lat, lon) {
                         var oneDayWind = document.createElement("div");
                         var oneDayHumidity = document.createElement("div");
 
+                        // Load data from the API
                         oneDayDate.textContent = dayjs.unix(data.list[i].dt).format("MMM D, YYYY");
-                        //oneDayWeather.textContent = data.list[i].weather[0].main;
                         oneDayWeatherIcon.src = "https://openweathermap.org/img/wn/" + data.list[i].weather[0].icon + "@2x.png";
                         oneDayTemp.textContent = "Temp: " + toCelsius(data.list[i].main.temp) + " ° C";
                         oneDayWind.textContent = "Wind: " + data.list[i].wind.speed + " MpH";
                         oneDayHumidity.textContent = "Humidity: " + data.list[i].main.humidity + "%";
 
+                        // Display the results
                         oneDayContainer.appendChild(oneDayDate);
                         oneDayWeather.appendChild(oneDayWeatherIcon);
                         oneDayContainer.appendChild(oneDayWeather);
@@ -91,6 +105,7 @@ var fiveDayForecast = function(lat, lon) {
                         fiveDayContainer.appendChild(oneDayContainer);
                     }
                     
+                    // Show the five day forecast
                     weatherDetailsEl.appendChild(fiveDayContainer);
                 })
             }
@@ -103,6 +118,7 @@ var fiveDayForecast = function(lat, lon) {
         })
 }
 
+// Takes the user's city search and gets the weather for that area
 var formSubmitHandler = function (event) {
     event.preventDefault();
 
@@ -112,15 +128,18 @@ var formSubmitHandler = function (event) {
     }
 }
 
+// Convert degrees kelvin to celsius
 var toCelsius = function(kelvins) {
     return Math.round(kelvins - 273.15);
 }
 
+// Save the user's input
 function saveSearch(name) {
     localStorage.setItem("citySearch", name);
     loadSearch();
 }
 
+// Load previous searches, if any
 function loadSearch() {
     if (localStorage.getItem("citySearch")) {
         userSearch.id = "userSearch";
@@ -131,14 +150,10 @@ function loadSearch() {
     }
 }
 
-function getSearch(name) {
-    cityInputEl.value = name;
-    console.log(name);
-}
-
-formEl.addEventListener("submit", formSubmitHandler);
 userSearch.addEventListener("click", function() {
-    getSearch(userSearch.value);
+    cityInputEl.value = name;
     getWeather(userSearch.value);
 })
+
+formEl.addEventListener("submit", formSubmitHandler);
 loadSearch();
