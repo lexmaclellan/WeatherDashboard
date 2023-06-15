@@ -43,3 +43,9 @@ main {
     padding: 5px;
     line-height: 1.5;
 }
+
+#savedSearches input {
+    background: lightgray;
+    border: 1px solid darkgray;
+    margin: 10px 0;
+}

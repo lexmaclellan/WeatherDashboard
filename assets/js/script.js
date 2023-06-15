@@ -1,8 +1,10 @@
 var apiKey = "6da9f270f26dfadb040379c56c4a5070";
 var formEl = document.querySelector("#searchForm");
 var cityInputEl = document.querySelector("#citySearch");
+var savedSearchesEl = document.getElementById("savedSearches");
 var searchButtonEl = document.querySelector("#searchButton");
 var weatherDetailsEl = document.querySelector("#weatherDetails");
+var userSearch = document.createElement("input");
 
 var getWeather = function(city) {
     var weatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&limit=5&appid=${apiKey}`;
@@ -35,6 +37,7 @@ var getWeather = function(city) {
                     weatherDetailsCard.appendChild(weatherDetailsHumidity);
                     weatherDetailsEl.appendChild(weatherDetailsCard);
 
+                    saveSearch(data.name);
                     fiveDayForecast(data.coord.lat, data.coord.lon);
                 })
             }
@@ -113,4 +116,29 @@ var toCelsius = function(kelvins) {
     return Math.round(kelvins - 273.15);
 }
 
+function saveSearch(name) {
+    localStorage.setItem("citySearch", name);
+    loadSearch();
+}
+
+function loadSearch() {
+    if (localStorage.getItem("citySearch")) {
+        userSearch.id = "userSearch";
+        userSearch.type = "button";
+        userSearch.value = localStorage.getItem("citySearch");
+        console.log(userSearch.value);
+        savedSearchesEl.appendChild(userSearch);
+    }
+}
+
+function getSearch(name) {
+    cityInputEl.value = name;
+    console.log(name);
+}
+
 formEl.addEventListener("submit", formSubmitHandler);
+userSearch.addEventListener("click", function() {
+    getSearch(userSearch.value);
+    getWeather(userSearch.value);
+})
+loadSearch();
